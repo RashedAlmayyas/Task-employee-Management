@@ -25,7 +25,7 @@ else{
 		$due_date=$_POST['due_date'];
 		
 	  
-		$sql ="INSERT INTO task(title,employee,description, due_date) VALUES(:title,:employee, :description, :due_date)";
+		$sql ="INSERT INTO task(title,employee,description, due_date, status) VALUES(:title,:employee, :description, :due_date, 0)";
 		$query = $dbh->prepare($sql);
 		$query-> bindParam(':title', $title, PDO::PARAM_STR);
         $query-> bindParam(':employee', $employee, PDO::PARAM_STR);
