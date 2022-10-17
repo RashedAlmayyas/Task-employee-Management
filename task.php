@@ -37,6 +37,42 @@ else{
 		$msg=" add task Successfully";
   }    
 
+if(isset($_GET['del']))
+{
+$id=$_GET['del'];
+
+$sql = "delete from task WHERE id=:id";
+$query = $dbh->prepare($sql);
+$query -> bindParam(':id',$id, PDO::PARAM_STR);
+$query -> execute();
+
+$msg="Task Deleted successfully";
+}
+
+if(isset($_REQUEST['uncomplete']))
+	{
+	$aeid=intval($_GET['uncomplete']);
+	$memstatus=1;
+	$sql = "UPDATE task SET status=:status WHERE  id=:aeid";
+	$query = $dbh->prepare($sql);
+	$query -> bindParam(':status',$memstatus, PDO::PARAM_STR);
+	$query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
+	$query -> execute();
+	$msg="Changes Sucessfully";
+	}
+
+	if(isset($_REQUEST['complete']))
+	{
+	$aeid=intval($_GET['complete']);
+	$memstatus=0;
+	$sql = "UPDATE task SET status=:status WHERE  id=:aeid";
+	$query = $dbh->prepare($sql);
+	$query -> bindParam(':status',$memstatus, PDO::PARAM_STR);
+	$query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
+	$query -> execute();
+	$msg="Changes Sucessfully";
+	}
+
 
 
 
@@ -205,18 +241,20 @@ foreach($results as $result)
                                             <td><?php echo htmlentities($result->due_date);?></td>
                                             <td>
                                             
-                                            <?php if($result->status == 1)
+                                               <?php if($result->status == 1)
                                                     {?>
-                                                    <a href="task.php?confirm=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Un-Confirm the Account')">Confirmed <i class="fa fa-check-circle"></i></a> 
+						 <a href="task.php?uncomplete=<?php echo htmlentities($result->id);?>" onclick="return complete('Do you really want to complete the Task')">Un-completeed <i class="fa fa-times-circle"></i></a>
+
                                                     <?php } else {?>
-                                                    <a href="task.php?unconfirm=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Confirm the Account')">Un-Confirmed <i class="fa fa-times-circle"></i></a>
-                                                    <?php } ?>
+						<a href="task.php?complete=<?php echo htmlentities($result->id);?>" onclick="return complete('Do you really want to Un-complete the Task')">completeed <i class="fa fa-check-circle"></i></a> 
+
+														<?php } ?>
 </td>
                                             </td>
 											
 <td>
 <a href="edit_task.php?edit=<?php echo $result->id;?>" onclick="return confirm('Do you want to Edit');">&nbsp; <i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
-<a href="task.php?del=<?php echo $result->id;?>&name=<?php echo htmlentities($result->title);?>" onclick="return confirm('Do you want to Delete');"><i class="fa fa-trash" style="color:red"></i></a>&nbsp;&nbsp;
+<a href="task.php?del=<?php echo $result->id;?>" onclick="return confirm('Do you want to Delete');"><i class="fa fa-trash" style="color:red"></i></a>&nbsp;&nbsp;
 </td>
 										</tr>
 										<?php $cnt=$cnt+1; }} ?>
