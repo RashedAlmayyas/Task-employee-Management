@@ -26,23 +26,18 @@ if(isset($_GET['edit']))
 
 	
 if(isset($_POST['submit']))
-  {
-	$title=$_POST['title'];
+  {	$title=$_POST['title'];
 	$employee=$_POST['employee'];
 	$description=$_POST['description'];
 	$due_date=$_POST['due_date'];
-	
-  
-	$sql ="UPDATE INTO task(title,employee,description, due_date) VALUES(:title,:employee, :description, :due_date)";
-	$query = $dbh->prepare($sql);
-	$query-> bindParam(':title', $title, PDO::PARAM_STR);
-	$query-> bindParam(':employee', $employee, PDO::PARAM_STR);
 
-	$query-> bindParam(':description', $description, PDO::PARAM_STR);
-	$query-> bindParam(':due_date', $due_date, PDO::PARAM_STR);
-
-	$query->execute();
-	$msg=" edite task Successfully";
+		$sql="UPDATE task SET title=(:title), employee=(:employee), description=(:description), due_date=(:due_date) WHERE id=(:idedit)";
+		$query = $dbh->prepare($sql);
+		$query-> bindParam(':title', $title, PDO::PARAM_STR);
+		$query-> bindParam(':employee', $employee, PDO::PARAM_STR);
+		$query-> bindParam(':description', $description, PDO::PARAM_STR);
+		$query-> bindParam(':due_date', $due_date, PDO::PARAM_STR);
+	$msg="Data  Updated Successfully";
 }    
 ?>
 
